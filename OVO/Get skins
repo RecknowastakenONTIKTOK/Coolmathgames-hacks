@@ -1,0 +1,43 @@
+async function getName() {
+    const response = await fetch('https://api.Coolmathgames.com/api/users/verify-token', {
+        method: "GET",
+        headers: {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "en-US,en;q=0.9,ru;q=0.8",
+        },
+        credentials: "include"
+    });
+    const data = await response.json();
+
+    return data.name;
+};
+
+async function addCurrencies() {
+    const Skins = Number(prompt('How many Skins do you want to add to your account? (10 daily)'));
+
+    if (tokens > 10) {
+        alert('You can only add up to 10 Skins daily.');
+    };
+
+    const response = await fetch('https://api.Coolmathgames.com/api/users/add-rewards', {
+        method: "PUT",
+        headers: {
+            "referer": "www.Coolmathgames.com/OvO",
+            "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+            addedSkins: Skins,
+            name: await getName()
+        })
+    });
+
+    if (response.status == 200) {
+        alert(`${Skins} Skins added to your account!`);
+    } else {
+        alert('An error occured.');
+    };
+
+};
+
+addCurrencies();
